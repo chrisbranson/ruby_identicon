@@ -26,32 +26,32 @@ Or install it yourself as:
 
 Creating an identicon and saving to png
 
-	RubyIdenticon.create_and_save("RubyIdenticon", "ruby_identicon.png")
+    RubyIdenticon.create_and_save("RubyIdenticon", "ruby_identicon.png")
 
 Creating an identicon and returning a binary string
 
-	blob = RubyIdenticon.create("RubyIdenticon")
-	
-	# optional, save to a file
-	File.open("ruby_identicon.png", "wb") do |f| f.write(blob) end
+    blob = RubyIdenticon.create("RubyIdenticon")
+  
+    # optional, save to a file
+    File.open("ruby_identicon.png", "wb") do |f| f.write(blob) end
 
 ## Customising the identicon
 
 The identicon can be customised by passing additional options
 
-	background_color:  (Integer, default 0) the background color of the identicon in rgba notation (e.g. xffffffff for white)
-	border_size:  (Integer, default 35) the size in pixels to leave as an empty border around the identicon image
-	grid_size:    (Integer, default 7)  the number of rows and columns in the identicon, minimum 4, maximum 9
-	square_size:  (Integer, default 50) the size in pixels of each square that makes up the identicon
-	key:          (String) a 16 byte key used by siphash when calculating the hash value (see note below)
-	
-	Varying the key ensures uniqueness of an identicon for a given title, it is assumed desirable for different applications
-	to use a different key.
-	
+    background_color:  (Integer, default 0) the background color of the identicon in rgba notation (e.g. xffffffff for white)
+    border_size:  (Integer, default 35) the size in pixels to leave as an empty border around the identicon image
+    grid_size:    (Integer, default 7)  the number of rows and columns in the identicon, minimum 4, maximum 9
+    square_size:  (Integer, default 50) the size in pixels of each square that makes up the identicon
+    key:          (String) a 16 byte key used by siphash when calculating the hash value (see note below)
+  
+    Varying the key ensures uniqueness of an identicon for a given title, it is assumed desirable for different applications
+    to use a different key.
+  
 Example
 
-	blob = RubyIdenticon.create("identicons are great!", grid_size: 5, square_size: 70, background_color: 0xf0f0f0ff, key: "1234567890123456")
-	File.open("tmp/test_identicon.png", "wb") do |f| f.write(blob) end
+    blob = RubyIdenticon.create("identicons are great!", grid_size: 5, square_size: 70, background_color: 0xf0f0f0ff, key: "1234567890123456")
+    File.open("tmp/test_identicon.png", "wb") do |f| f.write(blob) end
 
 ## Contributing
 
