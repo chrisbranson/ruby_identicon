@@ -2,6 +2,10 @@ require 'rspec'
 require 'ruby_identicon'
 
 describe RubyIdenticon do
+  before(:each) do
+    Dir.mkdir("tmp") unless File.directory?("tmp")
+  end
+
   it "creates a binary string image blob" do
     expect(RubyIdenticon.create("RubyIdenticon")).to be_a_kind_of(String)  
   end
