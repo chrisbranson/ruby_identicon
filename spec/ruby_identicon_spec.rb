@@ -1,5 +1,4 @@
-require 'rspec'
-require 'ruby_identicon'
+require 'helper'
 
 describe RubyIdenticon do
   before(:each) do
