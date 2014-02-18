@@ -25,6 +25,10 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #++
 
+require 'ruby_identicon/version'
+require 'chunky_png'
+require 'siphash'
+
 #
 # A Ruby implementation of go-identicon
 #
@@ -40,13 +44,8 @@
 # The grid and square sizes can be varied to create identicons of
 # differing size.
 #
-
-require "ruby_identicon/version"
-require "chunky_png"
-require "siphash"
-
 module RubyIdenticon
-  # the default paramters used when creating identicons
+  # the default options used when creating identicons
   #
   # background_color: (Integer, default 0) the background color of the identicon in rgba notation (e.g. xffffffff for white)
   # border_size:      (Integer, default 35) the size in pixels to leave as an empty border around the identicon image
@@ -57,8 +56,7 @@ module RubyIdenticon
   # varying the key ensures uniqueness of an identicon for a given title, it is assumed desirable for different applications
   # to use a different key.
   #
-
-  DEFAULT_PARAMETERS = {
+  DEFAULT_OPTIONS = {
     border_size: 35,
     square_size: 50,
     grid_size: 7,
@@ -69,41 +67,39 @@ module RubyIdenticon
   # create an identicon png and save it to the given filename
   #
   # Example:
-  #   >> RubyIdenticon.create_and_save("identicons are great!", "test_identicon.png")
+  #   >> RubyIdenticon.create_and_save('identicons are great!', 'test_identicon.png')
   #   => result (Boolean)
   #
-  # Arguments:
-  #   title: (String)
-  #   filename: (String)
-  #   options: (Hash)
-
+  # @param title [string] the string value to be represented as an identicon
+  # @param filename [string] the full path and filename to save the identicon png to
+  # @param options [hash] additional options for the identicon
+  #
   def self.create_and_save(title, filename, options = {})
-    raise "filename cannot be nil" if filename == nil
+    raise 'filename cannot be nil' if filename == nil
 
     blob = create(title, options)
     return false if blob == nil
 
-    File.open(filename, "wb") do |f| f.write(blob) end
+    File.open(filename, 'wb') { |f| f.write(blob) }
   end
 
   # create an identicon png and return it as a binary string
   #
   # Example:
-  #   >> RubyIdenticon.create("identicons are great!")
+  #   >> RubyIdenticon.create('identicons are great!')
   #   => binary blob (String)
   #
-  # Arguments:
-  #   title: (String)
-  #   options: (Hash)
-
+  # @param title [string] the string value to be represented as an identicon
+  # @param options [hash] additional options for the identicon
+  #
   def self.create(title, options = {})
-    options = DEFAULT_PARAMETERS.merge(options)
-    
-    raise "title cannot be nil" if title == nil
-    raise "key is nil or less than 16 bytes" if options[:key] == nil || options[:key].length < 16
-    raise "grid_size must be between 4 and 9" if options[:grid_size] < 4 || options[:grid_size] > 9
-    raise "invalid border size" if options[:border_size] < 0
-    raise "invalid square size" if options[:square_size] < 0
+    options = DEFAULT_OPTIONS.merge(options)
+
+    raise 'title cannot be nil' if title == nil
+    raise 'key is nil or less than 16 bytes' if options[:key] == nil || options[:key].length < 16
+    raise 'grid_size must be between 4 and 9' if options[:grid_size] < 4 || options[:grid_size] > 9
+    raise 'invalid border size' if options[:border_size] < 0
+    raise 'invalid square size' if options[:square_size] < 0
 
     hash = SipHash.digest(options[:key], title)
 
@@ -117,7 +113,7 @@ module RubyIdenticon
     hash >>= 24
 
     sqx = sqy = 0
-    for i in 0..(options[:grid_size] * ((options[:grid_size]+1) / 2))
+    (options[:grid_size] * ((options[:grid_size] + 1) / 2)).times do
       if hash & 1 == 1
         x = options[:border_size] + (sqx * options[:square_size])
         y = options[:border_size] + (sqy * options[:square_size])
@@ -138,6 +134,6 @@ module RubyIdenticon
       end
     end
 
-    png.to_blob :color_mode => ChunkyPNG::COLOR_INDEXED
+    png.to_blob color_mode: ChunkyPNG::COLOR_INDEXED
   end
 end

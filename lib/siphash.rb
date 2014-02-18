@@ -8,10 +8,10 @@
 # distribute, sublicense, and/or sell copies of the Software, and to
 # permit persons to whom the Software is furnished to do so, subject to
 # the following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be
 # included in all copies or substantial portions of the Software.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 # EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 # MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -22,14 +22,13 @@
 #++
 
 module SipHash
-
   def self.digest(key, msg)
     s = State.new(key)
     len = msg.size
     iter = len / 8
 
     iter.times do |i|
-      m = msg.slice(i * 8, 8).unpack("Q<")[0]
+      m = msg.slice(i * 8, 8).unpack('Q<')[0]
       s.apply_block(m)
     end
 
@@ -44,7 +43,7 @@ module SipHash
 
   def self.last_block(msg, len, iter)
     last = (len << 56) & State::MASK_64;
-      
+
     r = len % 8
     off = iter * 8
 
@@ -59,7 +58,7 @@ module SipHash
   end
 
   class State
-    
+
     MASK_64 = 0xffffffffffffffff
 
     def initialize(key)
@@ -68,8 +67,8 @@ module SipHash
       @v2 = 0x6c7967656e657261
       @v3 = 0x7465646279746573
 
-      k0 = key.slice(0, 8).unpack("Q<")[0]
-      k1 = key.slice(8, 8).unpack("Q<")[0]
+      k0 = key.slice(0, 8).unpack('Q<')[0]
+      k1 = key.slice(8, 8).unpack('Q<')[0]
 
       @v0 ^= k0
       @v1 ^= k1
@@ -89,7 +88,7 @@ module SipHash
 
     def compress
       @v0 = (@v0 + @v1) & MASK_64
-      @v2 = (@v2 + @v3) & MASK_64 
+      @v2 = (@v2 + @v3) & MASK_64
       @v1 = rotl64(@v1, 13)
       @v3 = rotl64(@v3, 16)
       @v1 ^= @v0
@@ -112,6 +111,5 @@ module SipHash
     def digest
       @v0 ^ @v1 ^ @v2 ^ @v3
     end
-
   end
 end
