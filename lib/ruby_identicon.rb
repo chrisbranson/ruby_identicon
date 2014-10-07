@@ -139,6 +139,6 @@ module RubyIdenticon
   end
 
   def self.create_base64(title, options = {})
-    Base64.encode64(self.create(title, options))
+    Base64.encode64(self.create(title, options)).force_encoding('UTF-8')
   end
 end
