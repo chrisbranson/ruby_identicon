@@ -7,7 +7,7 @@ describe RubyIdenticon do
 
   # general parameter tests
   it 'creates a binary string image blob' do
-    expect(RubyIdenticon.create('RubyIdenticon')).to be_a_kind_of(String)  
+    expect(RubyIdenticon.create('RubyIdenticon')).to be_a_kind_of(String)
   end
 
   it 'does not create a binary string image blob with an invalid title' do
@@ -64,5 +64,12 @@ describe RubyIdenticon do
 
   it 'does not create a png image file via create_and_save with an invalid title' do
     lambda { RubyIdenticon.create_and_save(nil, 'tmp/test_identicon.png') }.should raise_exception('title cannot be nil')
+  end
+
+  # Base64 creation tests
+  it 'creates base64 version of the image' do
+    blob = RubyIdenticon.create('RubyIdenticon')
+    base64 = RubyIdenticon.create_base64('RubyIdenticon')
+    expect(Base64.decode64(base64).force_encoding('UTF-8')).to eq blob
   end
 end
