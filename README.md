@@ -36,9 +36,13 @@ Creating an identicon and saving to png
 Creating an identicon and returning a binary string
 
     blob = RubyIdenticon.create("RubyIdenticon")
-  
+
     # optional, save to a file
     File.open("ruby_identicon.png", "wb") do |f| f.write(blob) end
+
+Creating an identicon and returns in base64 format
+
+    base64 = RubyIdenticon.create_base64("RubyIdenticon")
 
 ## Customising the identicon
 
@@ -49,10 +53,10 @@ The identicon can be customised by passing additional options
     grid_size:    (Integer, default 7)  the number of rows and columns in the identicon, minimum 4, maximum 9
     square_size:  (Integer, default 50) the size in pixels of each square that makes up the identicon
     key:          (String) a 16 byte key used by siphash when calculating the hash value (see note below)
-  
+
     Varying the key ensures uniqueness of an identicon for a given title, it is assumed desirable for different applications
     to use a different key.
-  
+
 Example
 
     blob = RubyIdenticon.create("identicons are great!", grid_size: 5, square_size: 70, background_color: 0xf0f0f0ff, key: "1234567890123456")
