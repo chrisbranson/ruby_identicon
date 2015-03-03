@@ -28,6 +28,7 @@
 require 'ruby_identicon/version'
 require 'chunky_png'
 require 'siphash'
+require 'base64'
 
 #
 # A Ruby implementation of go-identicon
@@ -135,5 +136,9 @@ module RubyIdenticon
     end
 
     png.to_blob color_mode: ChunkyPNG::COLOR_INDEXED
+  end
+
+  def self.create_base64(title, options = {})
+    Base64.encode64(self.create(title, options)).force_encoding('UTF-8')
   end
 end
