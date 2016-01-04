@@ -42,13 +42,17 @@ Creating an identicon and returning a binary string
 
 Creating an identicon and returns in base64 format
 
-    base64 = RubyIdenticon.create_base64("RubyIdenticon")
+    base64_identicon = RubyIdenticon.create_base64("RubyIdenticon")
+    
+nb// to render this in html pass the base64 code into your view
+    
+    raw "<img src='data:image/png;base64,#{base64_identicon}'>"
 
 ## Customising the identicon
 
 The identicon can be customised by passing additional options
 
-    background_color:  (Integer, default 0) the background color of the identicon in rgba notation (e.g. xffffffff for white)
+    background_color:  (Integer, default 0) the background color of the identicon in rgba notation (e.g. 0xffffffff for white)
     border_size:  (Integer, default 35) the size in pixels to leave as an empty border around the identicon image
     grid_size:    (Integer, default 7)  the number of rows and columns in the identicon, minimum 4, maximum 9
     square_size:  (Integer, default 50) the size in pixels of each square that makes up the identicon
