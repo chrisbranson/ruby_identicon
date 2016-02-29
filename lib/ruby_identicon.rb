@@ -120,11 +120,11 @@ module RubyIdenticon
         y = options[:border_size] + (sqy * options[:square_size])
 
         # left hand side
-        png.rect(x, y, x + options[:square_size], y + options[:square_size], color, color)
+        png.rect(x, y, x + options[:square_size] - 1, y + options[:square_size] - 1, color, color)
 
         # mirror right hand side
         x = options[:border_size] + ((options[:grid_size] - 1 - sqx) * options[:square_size])
-        png.rect(x, y, x + options[:square_size], y + options[:square_size], color, color)
+        png.rect(x, y, x + options[:square_size] - 1, y + options[:square_size] - 1, color, color)
       end
 
       hash >>= 1
