@@ -35,27 +35,27 @@ describe RubyIdenticon do
   it 'creates a png image file' do
     blob = RubyIdenticon.create('RubyIdenticon')
     result = File.open('tmp/ruby_identicon.png', 'wb') { |f| f.write(blob) }
-    expect(result).to be_true
+    expect(result).to be_truthy
   end
 
   it 'creates a png image file of grid size 5, square size 70 and grey background' do
     blob = RubyIdenticon.create('RubyIdenticon', grid_size: 5, square_size: 70, background_color: 0xf0f0f0ff, key: '1234567890123456')
     result = File.open('tmp/ruby_identicon_gs5_white.png', 'wb') { |f| f.write(blob) }
-    expect(result).to be_true
+    expect(result).to be_truthy
   end
 
   it 'creates 10 png image files' do
     10.times do |count|
       blob = RubyIdenticon.create("RubyIdenticon_#{count}")
       result = File.open("tmp/ruby_identicon_#{count}.png", 'wb') { |f| f.write(blob) }
-      expect(result).to be_true
+      expect(result).to be_truthy
     end
   end
 
   # file creation tests
   it 'creates a png image file via create_and_save' do
     result = RubyIdenticon.create_and_save('RubyIdenticon is fun', 'tmp/test_identicon.png')
-    expect(result).to be_true
+    expect(result).to be_truthy
   end
 
   it 'does not create a png image file via create_and_save with an invalid filename' do
@@ -70,6 +70,6 @@ describe RubyIdenticon do
   it 'creates base64 version of the image' do
     blob = RubyIdenticon.create('RubyIdenticon')
     base64 = RubyIdenticon.create_base64('RubyIdenticon')
-    expect(Base64.decode64(base64).force_encoding('UTF-8')).to eq blob
+    expect(Base64.decode64(base64)).to eq blob
   end
 end
