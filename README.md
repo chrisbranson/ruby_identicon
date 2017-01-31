@@ -30,23 +30,26 @@ Or install it yourself as:
 ## Usage
 
 Creating an identicon and saving to png
-
-    RubyIdenticon.create_and_save("RubyIdenticon", "ruby_identicon.png")
+```ruby
+RubyIdenticon.create_and_save("RubyIdenticon", "ruby_identicon.png")
+```
 
 Creating an identicon and returning a binary string
+```ruby
+blob = RubyIdenticon.create("RubyIdenticon")
 
-    blob = RubyIdenticon.create("RubyIdenticon")
-
-    # optional, save to a file
-    File.open("ruby_identicon.png", "wb") do |f| f.write(blob) end
+# optional, save to a file
+File.open("ruby_identicon.png", "wb") do |f| f.write(blob) end
+```
 
 Creating an identicon and returns in base64 format
-
-    base64_identicon = RubyIdenticon.create_base64("RubyIdenticon")
-    
+```ruby
+base64_identicon = RubyIdenticon.create_base64("RubyIdenticon")
+```    
 nb// to render this in html pass the base64 code into your view
-    
-    raw "<img src='data:image/png;base64,#{base64_identicon}'>"
+```ruby  
+raw "<img src='data:image/png;base64,#{base64_identicon}'>"
+```
 
 ## Customising the identicon
 
@@ -62,10 +65,10 @@ The identicon can be customised by passing additional options
     to use a different key.
 
 Example
-
-    blob = RubyIdenticon.create("identicons are great!", grid_size: 5, square_size: 70, background_color: 0xf0f0f0ff, key: "1234567890123456")
-    File.open("tmp/test_identicon.png", "wb") do |f| f.write(blob) end
-
+```ruby
+blob = RubyIdenticon.create("identicons are great!", grid_size: 5, square_size: 70, background_color: 0xf0f0f0ff, key: "1234567890123456")
+File.open("tmp/test_identicon.png", "wb") do |f| f.write(blob) end
+ ```
 ## Contributing
 
 1. Fork it
