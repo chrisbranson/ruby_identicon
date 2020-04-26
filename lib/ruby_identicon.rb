@@ -62,6 +62,8 @@ module RubyIdenticon
     square_size: 50,
     grid_size: 7,
     background_color: ChunkyPNG::Color::TRANSPARENT,
+    fg_colors: [],
+    bg_colors: [],
     key: "\x00\x11\x22\x33\x44\x55\x66\x77\x88\x99\xAA\xBB\xCC\xDD\xEE\xFF"
   }
 
@@ -104,11 +106,21 @@ module RubyIdenticon
 
     hash = SipHash.digest(options[:key], title)
 
-    png = ChunkyPNG::Image.new((options[:border_size] * 2) + (options[:square_size] * options[:grid_size]),
-     (options[:border_size] * 2) + (options[:square_size] * options[:grid_size]), options[:background_color])
+    if options[:bg_colors].empty?
+      bg_color = options[:background_color]
+    else
+      bg_color = options[:bg_colors].sample
+    end
 
-    # set the foreground color by using the first three bytes of the hash value
-    color = ChunkyPNG::Color.rgba((hash & 0xff), ((hash >> 8) & 0xff), ((hash >> 16) & 0xff), 0xff)
+    png = ChunkyPNG::Image.new((options[:border_size] * 2) + (options[:square_size] * options[:grid_size]),
+     (options[:border_size] * 2) + (options[:square_size] * options[:grid_size]), bg_color)
+
+    if options[:fg_colors].empty?
+      # set the foreground color by using the first three bytes of the hash value
+      color = ChunkyPNG::Color.rgba((hash & 0xff), ((hash >> 8) & 0xff), ((hash >> 16) & 0xff), 0xff)
+    else
+      color = options[:fg_colors].sample
+    end
 
     # remove the first three bytes that were used for the foreground color
     hash >>= 24
