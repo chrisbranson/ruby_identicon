@@ -29,6 +29,7 @@
 
 require 'ruby_identicon/version'
 require 'chunky_png'
+require 'siphash'
 require 'base64'
 
 #
@@ -62,6 +63,7 @@ module RubyIdenticon
     border_size: 35,
     square_size: 50,
     grid_size: 7,
+    key: "\x00\x11\x22\x33\x44\x55\x66\x77\x88\x99\xAA\xBB\xCC\xDD\xEE\xFF"
   }.freeze
 
   # create an identicon png and save it to the given filename
@@ -96,18 +98,25 @@ module RubyIdenticon
     options = DEFAULT_OPTIONS.merge(options)
 
     raise 'title cannot be nil' if title.nil?
+    raise 'key is nil or less than 16 bytes' if options[:key].nil? || options[:key].length < 16
     raise 'grid_size must be between 4 and 9' if options[:grid_size] < 4 || options[:grid_size] > 9
     raise 'invalid border size' if options[:border_size] < 0
     raise 'invalid square size' if options[:square_size] < 0
 
+    hash = SipHash.digest(options[:key], title)
+
     png = ChunkyPNG::Image.new((options[:border_size] * 2) + (options[:square_size] * options[:grid_size]),
-                               (options[:border_size] * 2) + (options[:square_size] * options[:grid_size]), ChunkyPNG::Color.from_hex("#FFA726"))
+                               (options[:border_size] * 2) + (options[:square_size] * options[:grid_size]), ChunkyPNG::Color.from_hex('#FF9800'))
 
     # set the foreground color by using the first three bytes of the hash value
-    color = ChunkyPNG::Color.from_hex("#E65100")
+    color = ChunkyPNG::Color.from_hex('#E65100')
+
+    # remove the first three bytes that were used for the foreground color
+    hash >>= 24
 
     sqx = sqy = 0
     (options[:grid_size] * ((options[:grid_size] + 1) / 2)).times do
+      if hash & 1 == 1
         x = options[:border_size] + (sqx * options[:square_size])
         y = options[:border_size] + (sqy * options[:square_size])
 
@@ -117,7 +126,9 @@ module RubyIdenticon
         # mirror right hand side
         x = options[:border_size] + ((options[:grid_size] - 1 - sqx) * options[:square_size])
         png.rect(x, y, x + options[:square_size] - 1, y + options[:square_size] - 1, color, color)
+      end
 
+      hash >>= 1
       sqy += 1
       if sqy == options[:grid_size]
         sqy = 0
