@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #--
 # Copyright (c) 2013 Chris Branson
 #
@@ -61,9 +63,9 @@ module RubyIdenticon
     border_size: 35,
     square_size: 50,
     grid_size: 7,
-    background_color: ChunkyPNG::Color::TRANSPARENT,
+    background_color: ChunkyPNG::Color.rgba(255, 167, 38, 1),
     key: "\x00\x11\x22\x33\x44\x55\x66\x77\x88\x99\xAA\xBB\xCC\xDD\xEE\xFF"
-  }
+  }.freeze
 
   # create an identicon png and save it to the given filename
   #
@@ -76,10 +78,10 @@ module RubyIdenticon
   # @param options [hash] additional options for the identicon
   #
   def self.create_and_save(title, filename, options = {})
-    raise 'filename cannot be nil' if filename == nil
+    raise 'filename cannot be nil' if filename.nil?
 
     blob = create(title, options)
-    return false if blob == nil
+    return false if blob.nil?
 
     File.open(filename, 'wb') { |f| f.write(blob) }
   end
@@ -96,8 +98,8 @@ module RubyIdenticon
   def self.create(title, options = {})
     options = DEFAULT_OPTIONS.merge(options)
 
-    raise 'title cannot be nil' if title == nil
-    raise 'key is nil or less than 16 bytes' if options[:key] == nil || options[:key].length < 16
+    raise 'title cannot be nil' if title.nil?
+    raise 'key is nil or less than 16 bytes' if options[:key].nil? || options[:key].length < 16
     raise 'grid_size must be between 4 and 9' if options[:grid_size] < 4 || options[:grid_size] > 9
     raise 'invalid border size' if options[:border_size] < 0
     raise 'invalid square size' if options[:square_size] < 0
@@ -105,10 +107,10 @@ module RubyIdenticon
     hash = SipHash.digest(options[:key], title)
 
     png = ChunkyPNG::Image.new((options[:border_size] * 2) + (options[:square_size] * options[:grid_size]),
-     (options[:border_size] * 2) + (options[:square_size] * options[:grid_size]), options[:background_color])
+                               (options[:border_size] * 2) + (options[:square_size] * options[:grid_size]), options[:background_color])
 
     # set the foreground color by using the first three bytes of the hash value
-    color = ChunkyPNG::Color.rgba((hash & 0xff), ((hash >> 8) & 0xff), ((hash >> 16) & 0xff), 0xff)
+    color = ChunkyPNG::Color.rgba(230, 81, 0, 1)
 
     # remove the first three bytes that were used for the foreground color
     hash >>= 24
@@ -139,6 +141,6 @@ module RubyIdenticon
   end
 
   def self.create_base64(title, options = {})
-    Base64.encode64(self.create(title, options)).force_encoding('UTF-8')
+    Base64.encode64(create(title, options)).force_encoding('UTF-8')
   end
 end
