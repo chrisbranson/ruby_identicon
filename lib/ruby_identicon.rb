@@ -61,7 +61,7 @@ module RubyIdenticon
   DEFAULT_OPTIONS = {
     border_size: 35,
     square_size: 50,
-    grid_size: 7,
+    grid_size: 7
   }.freeze
 
   # create an identicon png and save it to the given filename
@@ -101,23 +101,22 @@ module RubyIdenticon
     raise 'invalid square size' if options[:square_size] < 0
 
     png = ChunkyPNG::Image.new((options[:border_size] * 2) + (options[:square_size] * options[:grid_size]),
-                               (options[:border_size] * 2) + (options[:square_size] * options[:grid_size]), ChunkyPNG::Color.from_hex("#FFA726"))
+                               (options[:border_size] * 2) + (options[:square_size] * options[:grid_size]), ChunkyPNG::Color.from_hex('#FFA726'))
 
     # set the foreground color by using the first three bytes of the hash value
-    color = ChunkyPNG::Color.from_hex("#E65100")
+    color = ChunkyPNG::Color.from_hex('#E65100')
 
     sqx = sqy = 0
     (options[:grid_size] * ((options[:grid_size] + 1) / 2)).times do
-        x = options[:border_size] + (sqx * options[:square_size])
-        y = options[:border_size] + (sqy * options[:square_size])
+      x = options[:border_size] + (sqx * options[:square_size])
+      y = options[:border_size] + (sqy * options[:square_size])
 
-        # left hand side
-        png.rect(x, y, x + options[:square_size] - 1, y + options[:square_size] - 1, color, color)
+      # left hand side
+      png.rect(x, y, x + options[:square_size] - 1, y + options[:square_size] - 1, color, color)
 
-        # mirror right hand side
-        x = options[:border_size] + ((options[:grid_size] - 1 - sqx) * options[:square_size])
-        png.rect(x, y, x + options[:square_size] - 1, y + options[:square_size] - 1, color, color)
-      end
+      # mirror right hand side
+      x = options[:border_size] + ((options[:grid_size] - 1 - sqx) * options[:square_size])
+      png.rect(x, y, x + options[:square_size] - 1, y + options[:square_size] - 1, color, color)
 
       sqy += 1
       if sqy == options[:grid_size]
