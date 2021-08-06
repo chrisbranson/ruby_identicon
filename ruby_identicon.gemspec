@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
   spec.version       = RubyIdenticon::VERSION
   spec.authors       = ["Chris Branson"]
   spec.email         = ["branson.chris@gmail.com"]
-  
+
   spec.description   = <<-EOT
     A Ruby implementation of go-identicon by Damian Gryski
 
@@ -31,10 +31,10 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
 
-  spec.add_development_dependency "bundler", "~> 1.5"
+  spec.add_development_dependency "bundler", ">= 2.2.10"
   spec.add_development_dependency "rake"
-  spec.add_development_dependency "rspec", "~> 3.4.0"
-  spec.add_development_dependency "yard", "~> 0.8.7"
+  spec.add_development_dependency "rspec", "~> 3.10.0"
+  spec.add_development_dependency "yard", ">= 0.9.20"
 
-  spec.add_dependency "chunky_png", "~> 1.3.5"
+  spec.add_dependency "chunky_png", "~> 1.4.0"
 end
