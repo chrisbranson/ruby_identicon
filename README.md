@@ -2,10 +2,9 @@
 
 [![Gem Version](https://badge.fury.io/rb/ruby_identicon.png)](http://badge.fury.io/rb/ruby_identicon)
 [![Build Status](https://api.travis-ci.org/chrisbranson/ruby_identicon.png?branch=master)](http://travis-ci.org/chrisbranson/ruby_identicon)
-[![Dependency Status](https://gemnasium.com/chrisbranson/ruby_identicon.png)](https://gemnasium.com/chrisbranson/ruby_identicon)
 [![Coverage Status](https://coveralls.io/repos/chrisbranson/ruby_identicon/badge.png)](https://coveralls.io/r/chrisbranson/ruby_identicon)
 
-![Example Identicon](https://dl.dropboxusercontent.com/u/176278/ruby_identicon.png)
+![Example Identicon](https://raw.githubusercontent.com/chrisbranson/ruby_identicon/master/example/ruby_identicon.png)
 
 A Ruby implementation of [go-identicon](https://github.com/dgryski/go-identicon) by Damian Gryski
 
