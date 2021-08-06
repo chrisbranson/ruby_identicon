@@ -1,7 +1,7 @@
 # RubyIdenticon
 
 [![Gem Version](https://badge.fury.io/rb/ruby_identicon.png)](http://badge.fury.io/rb/ruby_identicon)
-[![Build Status](https://api.travis-ci.org/chrisbranson/ruby_identicon.png?branch=master)](http://travis-ci.org/chrisbranson/ruby_identicon)
+![Build Status](https://github.com/chrisbranson/ruby_identicon/actions/workflows/master.yml/badge.svg?branch=master)
 [![Coverage Status](https://coveralls.io/repos/chrisbranson/ruby_identicon/badge.png)](https://coveralls.io/r/chrisbranson/ruby_identicon)
 
 ![Example Identicon](https://raw.githubusercontent.com/chrisbranson/ruby_identicon/master/example/ruby_identicon.png)
