@@ -1,9 +1,9 @@
-require 'simplecov'
-require 'simplecov-lcov'
+require "simplecov"
+require "simplecov-lcov"
 
 SimpleCov::Formatter::LcovFormatter.config do |config|
   config.report_with_single_file = true
-  config.single_report_path = '.coverage/lcov.info'
+  config.single_report_path = ".coverage/lcov.info"
 end
 
 SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
@@ -13,5 +13,5 @@ SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
 
 SimpleCov.start
 
-require 'rspec'
-require 'ruby_identicon'
+require "rspec"
+require "ruby_identicon"

@@ -28,7 +28,7 @@ module SipHash
     iter = len / 8
 
     iter.times do |i|
-      m = msg.slice(i * 8, 8).unpack('Q<')[0]
+      m = msg.slice(i * 8, 8).unpack1("Q<")
       s.apply_block(m)
     end
 
@@ -42,7 +42,7 @@ module SipHash
   private
 
   def self.last_block(msg, len, iter)
-    last = (len << 56) & State::MASK_64;
+    last = (len << 56) & State::MASK_64
 
     r = len % 8
     off = iter * 8
@@ -58,17 +58,15 @@ module SipHash
   end
 
   class State
-
     MASK_64 = 0xffffffffffffffff
-
     def initialize(key)
       @v0 = 0x736f6d6570736575
       @v1 = 0x646f72616e646f6d
       @v2 = 0x6c7967656e657261
       @v3 = 0x7465646279746573
 
-      k0 = key.slice(0, 8).unpack('Q<')[0]
-      k1 = key.slice(8, 8).unpack('Q<')[0]
+      k0 = key.slice(0, 8).unpack1("Q<")
+      k1 = key.slice(8, 8).unpack1("Q<")
 
       @v0 ^= k0
       @v1 ^= k1
