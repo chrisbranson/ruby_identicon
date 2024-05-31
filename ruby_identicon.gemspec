@@ -36,5 +36,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec", "~> 3.10.0"
   spec.add_development_dependency "yard", ">= 0.9.20"
 
+  spec.add_dependency "base64", "~> 0.2.0"
   spec.add_dependency "chunky_png", "~> 1.4.0"
 end
